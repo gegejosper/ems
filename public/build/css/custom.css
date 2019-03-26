@@ -4253,3 +4253,46 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
     background-color: #ffff !important;
 }
 /** /bootstrap-datetimepicker **/
+
+.memberpic {
+    width:200px;
+}
+.memberdetails {
+    margin: 20px 0;
+    padding: 5px 10px;
+    text-align: center;
+    border: 2px dashed #E0E0E0;
+}
+.memberdetail {
+    text-align: left;
+    padding-top:20px; 
+}
+.hidedetails {
+    display:none;
+}
+.viewdetails {
+    display:inherit;
+}
+body {
+    -webkit-print-color-adjust: exact !important;
+}
+.members {
+    font-size: 10px;
+}
+@media print
+{    
+    body {
+        -webkit-print-color-adjust: exact !important;
+      }
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+    .memberdetails {
+        margin: 20px 0;
+        padding: 50px;
+        text-align: center;
+        border: none;
+        width:100%;
+    }
+}

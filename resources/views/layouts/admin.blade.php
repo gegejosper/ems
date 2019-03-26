@@ -26,8 +26,11 @@
     <!-- bootstrap-daterangepicker -->
     <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
     <!-- Custom Theme Style -->
-    <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/custom.css') }}" rel="stylesheet">
   </head>
 
   <body class="nav-md">
@@ -61,16 +64,16 @@
                 <h3>Main Menu</h3>
                 <ul class="nav side-menu">
                   <li>
-                    <a href="/"><i class="fa fa-home"></i> Home </a> 
+                    <a href="/admin/home"><i class="fa fa-home"></i> Home </a> 
                   </li>
                   <li>
-                    <a href="/"><i class="fa fa-group"></i> Members </a> 
+                    <a href="/admin/members"><i class="fa fa-group"></i> Members </a> 
                   </li>
                   <li>
-                    <a href="/"><i class="fa fa-puzzle-piece"></i> Clubs </a> 
+                    <a href="/admin/clubs"><i class="fa fa-puzzle-piece"></i> Clubs </a> 
                   </li>
                   <li>
-                    <a href="/"><i class="fa fa-bank"></i> Regions </a> 
+                    <a href="/admin/regions"><i class="fa fa-bank"></i> Regions </a> 
                   </li>
                                   
                   <li>
@@ -86,7 +89,7 @@
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
+            <!-- <div class="sidebar-footer hidden-small">
               <a data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
@@ -99,13 +102,13 @@
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
-            </div>
+            </div> -->
             <!-- /menu footer buttons -->
           </div>
         </div>
 
         <!-- top navigation -->
-        <div class="top_nav">
+        <div class="top_nav no-print">
           <div class="nav_menu">
             <nav>
               <div class="nav toggle">
@@ -206,9 +209,9 @@
         <!-- /page content -->
 
         <!-- footer content -->
-        <footer>
+        <footer class="no-print">
           <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+            Developed by Gegejosper Ceniza | 09177222631
           </div>
           <div class="clearfix"></div>
         </footer>
@@ -235,6 +238,11 @@
     <!-- Skycons -->
     <script src="{{ asset('vendors/skycons/skycons.js') }}"></script>
     <!-- Flot -->
+    <!-- PNotify -->
+    <script src="{{ asset('vendors/pnotify/dist/pnotify.js') }}"></script>
+    <script src="{{ asset('vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
+    <script src="{{ asset('vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+
     <script src="{{ asset('vendors/Flot/jquery.flot.js') }}"></script>
     <script src="{{ asset('vendors/Flot/jquery.flot.pie.js') }}"></script>
     <script src="{{ asset('vendors/Flot/jquery.flot.time.js') }}"></script>
@@ -255,7 +263,7 @@
     <script src="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="{{ asset('build/js/custom.min.js') }}"></script>
+    <script src="{{ asset('build/js/custom.js') }}"></script>
 	
   </body>
 </html>

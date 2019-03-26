@@ -12,10 +12,22 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/about', 'HomeController@about')->name('about');
+// route with middleware on controller 
+
+Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/about', 'HomeController@about')->name('about');
+    Route::get('/members', 'HomeController@members')->name('members');
+    Route::post('/members/edit', 'HomeController@editmembers')->name('editmembers');
+    Route::get('/regions', 'HomeController@regions')->name('regions');
+    Route::get('/regions/{regionname}', 'HomeController@viewregions')->name('viewregions');
+    Route::get('/clubs', 'HomeController@clubs')->name('clubs');
+    Route::get('/clubs/{clubname}', 'HomeController@viewclub')->name('viewclub');
+    Route::get('/memberssearch', 'HomeController@memberssearch')->name('memberssearch');
+});
+// end route with middleware
