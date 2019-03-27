@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class LoginController extends Controller
 {
     //
-    public function adminLogin(Request $request){
+    public function userLogin(Request $request){
         //dd($request->all());
         
         if(Auth::attempt([
@@ -20,6 +20,10 @@ class LoginController extends Controller
         
             if($user->usertype=='admin'){
                 return redirect('admin/home');
+               
+            }
+            if($user->usertype=='assistant'){
+                return redirect('assistant/home');
                
             }
             else {

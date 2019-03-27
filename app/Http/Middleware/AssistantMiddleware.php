@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
+use Illuminate\Support\Facades\Auth;
 class AssistantMiddleware
 {
     /**
@@ -15,6 +16,16 @@ class AssistantMiddleware
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if(Auth::check()){
+            if(Auth::user()->usertype == 'assistant'){       
+                return $next($request);
+            }
+            else {
+                //return back();
+                return redirect('/');
+            }
+        }
+        //return back();
+        return redirect('/');
     }
 }
