@@ -4295,4 +4295,7 @@ body {
         border: none;
         width:100%;
     }
+    .memberlistview{
+        width:100%;
+    }
 }

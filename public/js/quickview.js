@@ -1,6 +1,6 @@
 $(document).ready(function() {
     
-    $(document).on('click', '.quickview', function() {
+    $(document).on('mouseover', '.quickview', function() {
         $('.memberdetails').addClass("viewdetails"); 
         $('.name').text($(this).data('name'));
         $('.memberpic').attr("src",$(this).data('pic'));
@@ -24,6 +24,7 @@ $(document).ready(function() {
         $('.sssgsis').text($(this).data('sssgsis'));
         $('.pagibig').text($(this).data('pagibig'));
         $('.religion').text($(this).data('religion'));
+        $('.did').text($(this).data('id'));
         $('.edit-modal').attr("data-id",$(this).data('id'));
         $('.edit-modal').attr("data-personalid",$(this).data('personalid'));
         $('.edit-modal').attr("data-pic",$(this).data('pic'));
@@ -52,6 +53,7 @@ $(document).ready(function() {
 
         //console.log($(this).data('name'));
       });
+      
 
       $(document).on('click', '.edit-modal', function() {
         $('#footer_action_button').text("Update");
@@ -92,6 +94,20 @@ $(document).ready(function() {
         $('#pagibig').val($(this).data('pagibig'));
         $('#religion').val($(this).data('religion'));
         $('#myModal').modal('show');
+        //console.log($(this).data('name') + $(this).data('points'));
+    });
+
+    $(document).on('click', '.add-modal', function() {
+        
+        $('#actionicon').removeClass('fa-times');
+        $('#actionicon').addClass('fa-pencil');
+        $('.addBtn').addClass('btn-success');
+        $('.addBtn').removeClass('btn-danger');
+        $('.addBtn').addClass('add');
+        $('.modal-title').text('Add Member');
+        $('.form-horizontal').show();
+
+        $('#addModal').modal('show');
         //console.log($(this).data('name') + $(this).data('points'));
     });
     $(document).on('click', '.delete-modal', function() {
@@ -147,9 +163,7 @@ $(document).ready(function() {
                 'fname': $('#fname').val()
             },
             success: function(data) {
-                //$('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.branch_name + "</td><td class='td-actions'><button class='edit-modal btn btn-small btn-success' data-id='" + data.id + "' data-name='" + data.branch_name + "'><i class='fa fa-pencil'> </i> Edit</button><a class='delete-modal btn btn-danger btn-small' data-id='" + data.id + "'><i class='fa fa-times'></i>  Remove</a></td></tr>");
-                //console.log("success");
-                //$('.success').toast('show');
+
                 $('.name').text(data.lname +  ', ' +data.fname+ '' +data.mname);
                 //$('.memberpic').attr("src",$(this).data('pic'));
                 $('.personalid').text(data.personalidnumber);
@@ -206,6 +220,75 @@ $(document).ready(function() {
                 });
                 
             }
+        });
+    });
+
+    // $('.modal-footer').on('click', '.add', function() {
+        
+    
+    //     $.ajax({
+    //         type: 'post',
+    //         url: '/admin/members/add',
+    //         data: {
+    //             //_token:$(this).data('token'),
+    //             '_token': $('input[name=_token]').val(),
+
+    //             'bloodtype': $("select[name=bloodtype]").val(),
+    //             'region': $("select[name=region]").val(),
+    //             'club': $("select[name=club]").val(),
+    //             'position': $("select[name=position]").val(),
+    //             'personalid': $("#personalid").val(),
+    //             'clubnumber': $("#clubnumber").val(),
+    //             'regnumber': $("#regnumber").val(),
+    //             'address': $("#address").val(),
+    //             'contactnum': $("#contactnum").val(),
+    //             'contactperson': $("#contactperson").val(),
+    //             'contactpersonnum': $("#contactpersonnum").val(),
+    //             'relation': $("#relation").val(),
+    //             'email': $("#email").val(),
+    //             'website': $("#website").val(),
+    //             'tin': $("#tin").val(),
+    //             'philhealth': $("#philhealth").val(),
+    //             'sssgsis': $("#sssgsis").val(),
+    //             'pagibig': $("#pagibig").val(),
+    //             'birthdate': $("#birthdate").val(),
+    //             'religion': $("#religion").val(),
+    //             'lname': $("#lname").val(),
+    //             'mname': $("#mname").val(),
+    //             'fname': $('#fname').val()
+    //         },
+    //         success: function(data) {
+    //             new PNotify({
+    //                 title: 'Success',
+    //                 text: 'Member Successfully Updated',
+    //                 type: 'success',
+    //                 delay: 2000,
+    //                 styling: 'bootstrap3'
+    //             });
+                
+    //         }
+    //     });
+    // });
+    $('.modal-footer').on('click', '.delete', function() {
+        $.ajax({
+            type: 'post',
+            url: '/admin/deletemember',
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': $('.did').text()
+            },
+            success: function(data) {
+                $('.member' + $('.did').text()).remove();
+                $('.memberdetails').removeClass("viewdetails");
+                new PNotify({
+                    title: 'Success',
+                    text: 'Member Successfully Deleted',
+                    type: 'error',
+                    delay: 2000,
+                    styling: 'bootstrap3'
+                });
+            }
+            
         });
     });
 });

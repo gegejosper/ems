@@ -6,16 +6,28 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="no-print">
-                  <h2>Members Lists</h2>
+                  <h4>Members Lists</h4>
                 </div>
                   <div class="clearfix"></div>
                   <div class="x_content">
+                  <form method="get" action="/admin/productsearch">         
+                      <div class="input-group col-lg-6 no-print">
+                         <select class="form-control" name="region" id="region">
+                            @foreach($dataRegion as $Region)
+                            <option value="{{$Region->regioname}}">{{$Region->regioname}}</option>
+                            @endforeach
+                         </select>
+                         
+                        </div>
+                      {{ csrf_field() }}
+                      </span>
+                  </form>
                     <div class="row">
-                      <div class="col-lg-6 no-print">
-                                <table class="table table-striped">
+                      <div class="col-lg-6 memberlistview no-print">
+                                <table class="table table-striped members">
                                   <thead>
                                     <tr>
-                                    
+                                      <th>#</th>
                                       <th>Personal ID</th>
                                       <th>Full Name</th>
                                       <th>Club</th>
@@ -23,9 +35,12 @@
                                     </tr>
                                   </thead>
                                   <tbody  class="memberresult">
+                                  <?php 
+                                  $num = 1;
+                                  ?>
                                   @foreach($dataMember as $Member)
-                                    <tr>
-                                      
+                                  <tr class="member{{$Member->id}}">
+                                      <td>{{$num}}.</td>
                                       <td>{{$Member->personalidnumber}}</td>
                                       <td>{{ucwords($Member->lname)}}, {{ucwords($Member->fname)}} {{ucwords($Member->mname)}}</td>
                                       <td>{{ucwords($Member->club)}}</td>
@@ -35,8 +50,8 @@
                                         else {
                                           $pic = '/member/'.$Member->pic;
                                         }?>
-                                      <td><a href="javascript:;" 
-                                        class="quickview btn btn-xs btn-info" 
+                                      <td class="quickviewcol"><a href="javascript:;" 
+                                        class="quickview btn btn-xs btn-info no-print" 
                                         data-id="{{$Member->id}}"
                                         data-pic="{{$pic}}"
                                         data-personalid="{{$Member->personalidnumber}}"
@@ -67,9 +82,28 @@
                                       </td>
                     
                                     </tr>
+                                    <?php $num += 1;?>
                                   @endforeach
                                   </tbody>
                                 </table>
+                            <a class="btn btn-print btn-primary hidden-print noprint btn-xs print" onclick="myFunction()"><i class="fa fa-print" ></i> Print</a>
+                            <a class="btn btn-print btn-primary hidden-print noprint btn-xs prepareprint" onclick="clearPrint()"><i class="fa fa-print" ></i> Prepare to Print</a>
+                            <script>
+                            $('.print').hide();
+                            function myFunction() {
+                              window.print();
+                            }
+                            function clearPrint() {
+                              $('.print').show();
+                              $('.prepareprint').hide();
+                              $('.quickviewcol').hide();
+                              
+                              $('.memberlistview').removeClass('no-print');
+                              $('.memberlistview').removeClass('col-lg-6');
+                              $('.memberlistview').addClass('col-lg-12');
+                              
+                            }
+                            </script>
                           </div>
                           <div class="col-lg-6 memberdetails hidedetails content invoice">
                             <img src="{{ asset('img/logo.png') }}" alt="" class="memberpic">
@@ -103,6 +137,7 @@
                             <a class="btn btn-print btn-primary hidden-print noprint btn-xs" onclick="myFunction()"><i class="fa fa-print" ></i> Print</a>
                             <script>
                             function myFunction() {
+                              
                             window.print();}
                             </script>
                             </div>
@@ -305,16 +340,18 @@
 </div>
 
 <script type="text/javascript">
-$('#search').on('keyup',function(){
+$('#region').on('change',function(){
   $value=$(this).val();
   $.ajax({
     type : 'get',
-    url : '{{URL::to("/admin/memberssearch")}}',
+    url : '{{URL::to("/admin/regionsearch")}}',
     data:{'search':$value},
     success:function(data){
       $('.memberresult').html(data);
     } 
   });
+  $('.print').hide();
+  $('.prepareprint').show();
 })
 </script> 
 <script type="text/javascript">

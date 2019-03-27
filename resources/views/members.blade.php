@@ -1,12 +1,14 @@
 @extends('layouts.admin')
 
 @section('content')
-<script src="{{ asset('js/jquery.js') }}"></script>
+
+
 <div class="right_col" role="main">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="no-print">
-                  <h2>Members Lists</h2>
+                  <h4>Members Lists <a href="javascript:;"  class="add-modal btn btn-sm btn-info" > <i class="fa fa-plus"> </i> Add Member </a></h4>
+                  <a class="btn btn-success" href="/admin/downloadExcel/csv">Download CSV</a>
                 </div>
                   <div class="clearfix"></div>
                   <div class="x_content">
@@ -27,6 +29,15 @@
                                     {{ csrf_field() }}
                                     </span>
                                 </form>
+                                
+                                @if(Session::has('success'))
+                                <div class="alert alert-success">
+                                    {{ Session::get('success') }}
+                                    @php
+                                    Session::forget('success');
+                                    @endphp
+                                </div>
+                                @endif
                                 <table class="table table-striped">
                                   <thead>
                                     <tr>
@@ -39,7 +50,7 @@
                                   </thead>
                                   <tbody  class="memberresult">
                                   @foreach($dataMember as $Member)
-                                    <tr>
+                                    <tr class="member{{$Member->id}}">
                                       
                                       <td>{{$Member->personalidnumber}}</td>
                                       <td>{{ucwords($Member->lname)}}, {{ucwords($Member->fname)}} {{ucwords($Member->mname)}}</td>
@@ -319,6 +330,203 @@
   <!-- /.row -->
 </div>
 
+
+
+<div id="addModal" class="modal fade " role="dialog">
+  		<div class="modal-dialog modal-lg">
+  			<!-- Modal content-->
+  			<div class="modal-content">
+  				<div class="modal-header">
+  					<button type="button" class="close" data-dismiss="modal">&times;</button>
+  					<h4 class="modal-title"></h4>
+  				</div>
+  				<div class="modal-body">
+  					<form enctype="multipart/form-data" class="form-horizontal addMember" role="form" method="post" action="{{route('addmembers')}}">
+              @csrf	
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6">
+                  <label for="Member ID"> Member ID</label>
+                  <input name="input_img" type="file" id="imageInput" required>
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" class="form-control" id="fid">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label for="First Name"> First Name</label>
+                    <input type="text" class="form-control" id="fnameadd" name="fnameadd" required >
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Middle Name"> Middle Name</label>
+                    <input type="text" class="form-control" id="mnameadd" name="mnameadd" required>
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Last Name"> Last Name</label>
+                    <input type="text" class="form-control" id="lnameadd" name="lnameadd" required>
+                  </div>
+                </div>
+              </div>      
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label for="Personal ID"> Personal ID</label>
+                    <input type="text" class="form-control" id="personalidadd" name="personalidadd"required>
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Club Number"> Club Number</label>
+                    <input type="text" class="form-control" id="clubnumberadd" name="" required>
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Regional Number"> Regional Number</label>
+                    <input type="text" class="form-control" id="regnumberadd" name=""  required>
+                  </div>
+                </div>
+              </div>        
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label for="Position"> Position</label> <br>
+                    <select name="positionadd" id="positionadd" class="js-example-basic-single">
+                      @foreach($dataPosition as $Position)
+                      <option value="{{$Position->positionname}}">{{$Position->positionname}}</option>
+                      @endforeach
+                    </select>
+                    
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Club">Club</label> <br>
+                    <select type="text" name="clubadd" id="clubadd" class="js-example-basic-single ">
+                      
+                      @foreach($dataClub as $Club)
+                      <option value="{{$Club->clubname}}">{{$Club->clubname}}</option>
+                      @endforeach
+                    </select>
+                    
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Region"> Region</label> <br>
+                    <select name="regionadd" id="regionadd" class="js-example-basic-single" type="text">
+                      
+                      @foreach($dataRegion as $Region)
+                      <option value="{{$Region->regioname}}">{{$Region->regioname}}</option>
+                      @endforeach
+                    </select>
+                    
+                  </div>
+                  
+                </div>
+              </div>     
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label for="Address"> Address</label>
+                    <input type="text" class="form-control" id="addressadd" name="addressadd">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Contact Number">Contact Number</label>
+                    <input type="text" class="form-control" id="contactnumadd" name="contactnumadd">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Blood Type"> Blood Type</label>
+                    <select name="bloodtypeadd" class="form-control">
+                      
+                      <option value="A+">A+</option>
+                      <option value="A-">A-</option>
+                      <option value="B+">B+</option>
+                      <option value="B-">B-</option>
+                      <option value="O+">O+</option>
+                      <option value="O-">O-</option>
+                      <option value="AB+">AB+</option>
+                      <option value="AB-">AB-</option>
+                    </select>
+                  </div>
+                  
+                </div>
+              </div>     
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label for="Contact Person"> Contact Person</label>
+                    <input type="text" class="form-control" id="contactpersonadd" name="contactpersonadd" required>
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Contact Person #">Contact Person #</label>
+                    <input type="text" class="form-control" id="contactpersonnumadd" name="contactpersonnumadd" required>
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Relation"> Relation</label>
+                    <input type="text" class="form-control" id="relationadd" name="relationadd" required>  
+                  </div>
+                  
+                </div>
+              </div>     
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label for="Email"> Email</label>
+                    <input type="text" class="form-control" id="emailadd" name="emailadd">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Website">Website</label>
+                    <input type="text" class="form-control" id="websiteadd" name="websiteadd">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="TIN"> TIN</label>
+                    <input type="text" class="form-control" id="tinadd" name="tinadd">
+                  </div>
+                  
+                </div>
+              </div>     
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label for="Philhealth"> Philhealth</label>
+                    <input type="text" class="form-control" id="philhealthadd" name="philhealthadd">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="SSS/GSIS:">SSS/GSIS</label>
+                    <input type="text" class="form-control" id="sssgsisadd" name="sssgsisadd">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Pag-ibig"> Pag-ibig</label>
+                    <input type="text" class="form-control" id="pagibigadd" name="pagibigadd">
+                  </div>
+                  
+                </div>
+              </div>       
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label for="Birthdate"> Birthdate</label>
+                    <input type="text" class="form-control" id="birthdateadd" name="birthdateadd">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Religion">Religion</label>
+                    <input type="text" class="form-control" id="religionadd" name="religionadd">
+                  </div>
+                  
+                </div>
+  						</div>            
+  					
+  				
+  					<div class="modal-footer">
+  						<button type="submit" class="btn addBtn">
+              <i class="fa fa-file" id="actionicon">  </i> <span id="add_footer_action_button"> Add Member</span>
+  						</button>
+  						<button type="button" class="btn btn-warning" data-dismiss="modal">
+              <i class="fa fa-times"> </i> Close
+  						</button>
+  					</div>
+          </div>
+          
+          </form>
+  			</div>
+		  </div>
+  <!-- /.row -->
+</div>
+
 <script type="text/javascript">
 $('#search').on('keyup',function(){
   $value=$(this).val();
@@ -332,6 +540,28 @@ $('#search').on('keyup',function(){
   });
 })
 </script> 
+<script type="text/javascript">
+
+$(".addMember").validate({
+      action: "required"
+    }
+});
+
+</script> 
+<script type="text/javascript">
+
+    $("#clubadd").select2({
+      tags: true
+    });
+    $("#regionadd").select2({
+      tags: true
+    });
+    $("#positionadd").select2({
+      tags: true
+    });
+    
+
+</script>
 <script type="text/javascript">
 $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
 </script>

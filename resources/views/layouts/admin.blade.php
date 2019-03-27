@@ -118,96 +118,81 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="images/img.jpg" alt="">{{ ucfirst(Auth::user()->name) }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="javascript:;" class="account-modal" 
+                        data-id="{{ Auth::user()->id }}"
+                        data-name="{{ Auth::user()->name }}"
+                        data-eemail="{{ Auth::user()->email }}"
+                        data-password="{{ Auth::user()->password }}"
+                        > Update Account</a></li>
+                    
+                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" ><i class="fa fa-lock"></i><span> Logout</span></a></li>
                   </ul>
                 </li>
 
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
-                  </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="text-center">
-                        <a>
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
+                
               </ul>
             </nav>
           </div>
         </div>
         <!-- /top navigation -->
-
+        <link href="{{ asset('css/select2.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/validate.js') }}"></script>
+<script src="{{ asset('js/jquery.js') }}"></script>
+<script src="{{ asset('js/select2.js') }}"></script>
         <!-- page content -->
         @yield('content')
         <!-- /page content -->
 
+<div id="accountModal" class="modal fade " role="dialog">
+  		<div class="modal-dialog modal-lg">
+  			<!-- Modal content-->
+  			<div class="modal-content">
+  				<div class="modal-header">
+  					<button type="button" class="close" data-dismiss="modal">&times;</button>
+  					<h4 class="modal-title"></h4>
+  				</div>
+  				<div class="modal-body">
+  					<form class="form-horizontal" role="form">
+              @csrf	
+              <input type="hidden" class="form-control" id="fid">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label for="Name"> Name</label>
+                    <input type="hidden" class="form-control" id="userid">
+                    <input type="text" class="form-control" id="name">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Email">Email</label>
+                    <input type="text" class="form-control" id="dataemail">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="Password">Password</label>
+                    <input type="text" class="form-control" id="password">
+                  </div>
+                  
+                </div>
+              </div>      
+          
+  					</form>
+
+  					<div class="modal-footer">
+  						<button type="button" class="btn actionBtn btn-info" data-dismiss="modal">
+              <i class="fa fa-pencil" id="actionicon">  </i> <span id="footer_action_button">Update Account </span>
+  						</button>
+  						<button type="button" class="btn btn-warning" data-dismiss="modal">
+              <i class="fa fa-times"> </i> Close
+  						</button>
+  					</div>
+  				</div>
+  			</div>
+		  </div>
+  <!-- /.row -->
+</div>
         <!-- footer content -->
         <footer class="no-print">
           <div class="pull-right">
@@ -218,7 +203,7 @@
         <!-- /footer content -->
       </div>
     </div>
-
+    <script src="{{ asset('js/account.js') }}"></script>
     <!-- jQuery -->
     <script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
     <!-- Bootstrap -->
@@ -264,6 +249,6 @@
 
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('build/js/custom.js') }}"></script>
-	
+
   </body>
 </html>

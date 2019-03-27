@@ -26,7 +26,7 @@
               <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h4>Recent Regions <a href="/admin/regions" class="pull-right btn btn-info btn-xs"><i class="fa fa-plus"></i> View More</a></h4>
+                    <h4>Recent Regions </h4>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
