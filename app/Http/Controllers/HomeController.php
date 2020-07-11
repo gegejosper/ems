@@ -9,11 +9,12 @@ use App\Club;
 use App\Region;
 use App\User;
 use App\Exports\MemberExport;
+use App\Exports\CustomMemberExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
-
+use App\Imports\MembersImport;
 
 
 class HomeController extends Controller
@@ -50,7 +51,9 @@ class HomeController extends Controller
         $Club = Club::count();
         $Region = Region::count();
         $Member = Member::count();
-        $dataRegion = Region::with('members')->get();
+        $dataMember = Member::all(); 
+        $dataRegion = $dataMember->groupBy('region');
+        //$dataRegion = Region::with('members')->get();
         return view('region', compact('dataRegion','Club', 'Region', 'Member'));
     }
     public function clubs()
@@ -59,7 +62,9 @@ class HomeController extends Controller
         $Club = Club::count();
         $Region = Region::count();
         $Member = Member::count();  
-        $dataClub = Club::with('members')->get();
+        $dataMember = Member::all();  
+        //$dataClub = Club::with('members')->get();
+        $dataClub = $dataMember->groupBy('club');
         return view('clubs', compact('dataClub','Club', 'Region', 'Member'));
     }
 
@@ -92,8 +97,10 @@ class HomeController extends Controller
       }
     public function viewregions($regionname){
         $dataPosition = Position::all();
-        $dataClub = Club::all();
-        $dataRegion = Region::all();
+        
+        $dataMembers = Member::all(); 
+        $dataClub = $dataMembers->groupBy('club');
+        $dataRegion = $dataMembers->groupBy('region');
         $dataMember = Member::where('region','=', $regionname)
                 ->latest()
                 ->get();
@@ -101,8 +108,9 @@ class HomeController extends Controller
     }
     public function viewclub($clubname){
         $dataPosition = Position::all();
-        $dataClub = Club::all();
-        $dataRegion = Region::all();
+        $dataMembers = Member::all(); 
+        $dataClub = $dataMembers->groupBy('club');
+        $dataRegion = $dataMembers->groupBy('region');
         $dataMember = Member::where('club','=', $clubname)
             ->latest()    
             ->get();
@@ -218,7 +226,12 @@ class HomeController extends Controller
             {
                 
                 foreach ($dataMember as $key => $Member) {
-                   
+                        if(empty($Member->pic)){
+                            $pic = '/img/logo.png';
+                        }
+                        else {
+                            $pic = '/member/'.$Member->pic;
+                        }
                         $output.='<tr>
                         <td>'.$Member->personalidnumber.'</td>
                         <td>'.ucwords($Member->lname).', '.ucwords($Member->fname).' '.ucwords($Member->mname).'</td>
@@ -226,6 +239,7 @@ class HomeController extends Controller
                         <td><a href="javascript:;" 
                           class="quickview btn btn-xs btn-info" 
                           data-id="'.$Member->id.'"
+                          data-pic="'.$pic.'"
                           data-personalid="'.$Member->personalidnumber.'"
                           data-clubnumber="'.$Member->clubidnumber.'"
                           data-regnumber="'.$Member->regionalidnumber.'" 
@@ -371,5 +385,37 @@ class HomeController extends Controller
     public function downloadExcel($type)
     { 
         return Excel::download(new MemberExport, 'members.csv');
+    }
+    public function exportcustom(Request $request){
+        return (new CustomMemberExport($request->type,$request->importtype))->download($request->importtype.'.csv');
+    }
+    public function export(){
+        $dataMember = Member::all();
+        $dataClub = $dataMember->groupBy('club');
+        $dataRegion = $dataMember->groupBy('region');
+        //dd($dataClub);
+        return view('export', compact('dataClub','dataRegion'));
+    }
+    public function import(){
+        return view('import');
+    }
+    public function uploads(){
+        return view('upload');
+    }
+    public function prouploads(Request $request){
+        //$image = $request->file('img_file');
+        //$name = time().'.'.$image->getClientOriginalExtension();
+        foreach($request->file('img_file') as $imagefile){
+            $imgname = $imagefile->getClientOriginalName();
+            $destinationPath = public_path('/member');
+            $imagefile->move($destinationPath, $imgname);
+        }
+        return redirect()->back()->with('success','Images succesfully uploaded!');
+        
+    }
+    public function importmembers(){
+        Excel::import(new MembersImport,request()->file('file'));
+        return redirect()->back()->with('success','Members succesfully imported!');
+        return back();
     }
 }

@@ -41,13 +41,15 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($dataRegion as $Region)
+                      <?php $count = 1;?>
+                        @foreach($dataRegion as $Regions => $Region)
                         <tr>
-                            <td scope="row">{{$Region->id}}. </td>
-                            <th >{{ucwords($Region->regioname)}}</th>
-                            <td>{{$Region->members->count()}} </td>
-                            <td><a href="/admin/regions/{{$Region->regioname}}" class="pull-right btn btn-success btn-xs"><i class="fa fa-search"></i> View</a></td> 
+                            <td scope="row">{{$count}}. </td>
+                            <th >{{ucwords($Regions)}}</th>
+                            <td>{{$Region->count()}} </td>
+                            <td><a href="/admin/regions/{{$Regions}}" class="pull-right btn btn-success btn-xs"><i class="fa fa-search"></i> View</a></td> 
                         </tr>
+                        <?php $count++;?>
                         @endforeach
                       </tbody>
                     </table>

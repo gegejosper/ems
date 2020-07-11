@@ -13,9 +13,9 @@
                   <form method="get" action="/admin/productsearch">         
                       <div class="input-group col-lg-6 no-print">
                          <select class="form-control" name="region" id="region">
-                            @foreach($dataRegion as $Region)
-                            <option value="{{$Region->regioname}}">{{$Region->regioname}}</option>
-                            @endforeach
+                         @foreach($dataRegion as $Regions => $Region)
+                            <option value="{{$Regions}}">{{$Regions}}</option>
+                          @endforeach
                          </select>
                          
                         </div>
@@ -220,8 +220,8 @@
                     <label for="Region"> Region</label>
                     <select name="region" class="form-control">
                       <option id="region"></option>
-                      @foreach($dataRegion as $Region)
-                      <option value="{{$Region->regioname}}">{{$Region->regioname}}</option>
+                      @foreach($dataRegion as $Regions => $Region)
+                            <option value="{{$Regions}}">{{$Regions}}</option>
                       @endforeach
                     </select>
                     

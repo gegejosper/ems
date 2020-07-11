@@ -13,8 +13,8 @@
                   <form method="get" action="/admin/productsearch">         
                       <div class="input-group col-lg-6 no-print">
                          <select class="form-control" name="club" id="club">
-                            @foreach($dataClub as $Club)
-                            <option value="{{$Club->clubname}}">{{$Club->clubname}}</option>
+                            @foreach($dataClub as $Clubs => $Club )
+                            <option value="{{$Clubs}}">{{$Clubs}}</option>
                             @endforeach
                          </select>
                          
@@ -210,8 +210,8 @@
                     <label for="Club">Club</label>
                     <select name="club" class="form-control">
                       <option id="club"></option>
-                      @foreach($dataClub as $Club)
-                      <option value="{{$Club->clubname}}">{{$Club->clubname}}</option>
+                      @foreach($dataClub as $Clubs => $Club )
+                        <option value="{{$Clubs}}">{{$Clubs}}</option>
                       @endforeach
                     </select>
                     
@@ -220,8 +220,8 @@
                     <label for="Region"> Region</label>
                     <select name="region" class="form-control">
                       <option id="region"></option>
-                      @foreach($dataRegion as $Region)
-                      <option value="{{$Region->regioname}}">{{$Region->regioname}}</option>
+                      @foreach($dataRegion as $Regions => $Region)
+                            <option value="{{$Regions}}">{{$Regions}}</option>
                       @endforeach
                     </select>
                     

@@ -4,17 +4,29 @@ namespace App\Exports;
 
 use App\Member;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class MemberExport implements FromCollection, WithHeadings
+class CustomMemberExport implements FromQuery, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
     */
+    // public function collection()
+    // {
+    //     return Member::all();
+    // }
+    public function __construct($type, $importtype)
+    {
+        $this->type = $type;
+        $this->importtype = $importtype;
+    }
     public function headings(): array
     {
         return [
             'DATABASE ID',
+            'PICTURE',
             'REGIONAL ID NUMBER',
             'CLUB ID NUMBER',
             'PERSONAL ID NUMBER',
@@ -42,8 +54,21 @@ class MemberExport implements FromCollection, WithHeadings
             'RELIGION',
         ];
     }
-    public function collection()
+    use Exportable;
+
+    public function query()
     {
-        return Member::all();
+        if($this->type == 'club'){
+            return Member::query()
+            ->where('club', '=', $this->importtype);
+        }
+        else if ($this->type =='region'){
+            return Member::query()
+            ->where('region', '=', $this->importtype);
+        }
+        else {
+            return Member::all();
+        }
+        
     }
 }

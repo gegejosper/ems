@@ -75,6 +75,15 @@
                   <li>
                     <a href="/admin/regions"><i class="fa fa-bank"></i> Regions </a> 
                   </li>
+                  <li>
+                    <a href="/admin/uploads"><i class="fa fa-upload"></i> Uploads </a> 
+                  </li>
+                  <li>
+                    <a href="/admin/export"><i class="fa fa-cloud-download"></i> Export </a> 
+                  </li>
+                  <li>
+                    <a href="/admin/import"><i class="fa fa-cloud-upload"></i> Import </a> 
+                  </li>
                                   
                   <li>
                       <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" ><i class="fa fa-lock"></i><span>Logout</span></a>

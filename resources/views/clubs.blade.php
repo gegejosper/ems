@@ -41,13 +41,15 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($dataClub as $Club)
+                        <?php $count = 1;?>
+                        @foreach($dataClub as $Clubs => $Club)
                         <tr>
-                            <th scope="row">{{$Club->id}}.</th>
-                            <th>{{ucwords($Club->clubname)}}</th>
-                            <td>{{$Club->members->count()}}</td>
-                            <td><a href="/admin/clubs/{{$Club->clubname}}" class="pull-right btn btn-success btn-xs"><i class="fa fa-search"></i> View</a></td>
+                            <th scope="row">{{$count}}.</th>
+                            <th>{{ucwords($Clubs)}}</th>
+                            <td>{{$Club->count()}}</td>
+                            <td><a href="/admin/clubs/{{$Clubs}}" class="pull-right btn btn-success btn-xs"><i class="fa fa-search"></i> View</a></td>
                         </tr>
+                        <?php $count++;?>
                         @endforeach
                       </tbody>
                     </table>

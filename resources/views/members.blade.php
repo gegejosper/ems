@@ -54,7 +54,9 @@
                                       
                                       <td>{{$Member->personalidnumber}}</td>
                                       <td>{{ucwords($Member->lname)}}, {{ucwords($Member->fname)}} {{ucwords($Member->mname)}}</td>
-                                      <td>{{ucwords($Member->region)}}</td>
+                                      <td>{{ucwords($Member->region)}}
+                                      
+                                      </td>
                                       <?php if(empty($Member->pic)){
                                           $pic = '/img/logo.png';
                                         }
